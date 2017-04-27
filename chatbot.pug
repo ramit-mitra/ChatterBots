@@ -1,0 +1,42 @@
+title ChatterBots
+<!-- loading CDN dependencies -->
+link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js")
+script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
+script(src="/socket.io/socket.io.js")
+
+<!-- custom script -->
+script.
+    var socket = io();
+    $(document).ready(function(){
+        $('#chooseUsername').keyup(function(){
+            if($('#chooseUsername').val().trim().length > 0) {
+                $('#submitUsername').fadeIn('slow');
+            }
+            else {
+                $('#submitUsername').fadeOut('fast');
+            }
+        });
+        $('#submitUsername').click(function(){
+            var username = $('#chooseUsername').val().trim();
+            console.log('Desired Username : '+username);
+            //check if username is unique
+            $.get('/register/'+username, function(data, status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+            //register this client
+            var socket = io.connect('http://localhost', {port: 8080});
+            socket.on('connect', function (data) {
+                socket.emit('storeClientInfo', { customId : $('#chooseUsername').val().trim() });
+            });
+        });
+    });
+
+<!-- body content -->
+div.container-fluid(style="background-color: #FAFAFA;")
+    h1.text-center(style="color: #8BC34A; text-style: bold;") ChatterBots
+    h5.text-center(style="color: #FF9800; text-style: italic;") POWERED BY NodeJS, Bootstrap and Pug
+    hr(style="border: #F5F5F5;")
+div.container-fluid#enterUsername(style="padding-top: 14%; font-size: 32px;")
+    input.row.col-md-offset-4.text-center#chooseUsername(type="text", placeholder="Pick a name", style="margin-left: 25%; color: #212121; text-style: italic; width: 50%; border: none; border-bottom: 1px solid #FFAB00;")
+    img#submitUsername.icon.icons8-Double-Tick(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACZElEQVRoQ+2YsW7CMBCG78JSWlXqMyA6ItGhKoIBsfAcMFCpTK14DtSNhYE8Bx0qBhBSFyQeodlalUiVOuLKbhMcsJ1AYgeksHJxvv/OvvtjhBP/4YnzQyYg7QpmFcgqEDMD2RaKmcDYjx9NBTrjbgsA6sPmoK1SVelXWwBYn/emLO4oBFB4RBhRIELAlolg8GixOCDEpiJSF8DDe5kXiQjAbwLtVAWI4P+r0B42B7bHKYRngev0KpAE/Lw3S6cCScGncoiThDcuIGl4owJ0wBsToAveiACd8NoFdMbdMiC8IsAVbw8IgUCfv32uli1i7cTRPk9bpcpaaBtkJuC1VcAUfEBAZ9ylJmnCj3BR6Sr92giATGSlNQnvC6DwiEDtLHWDgf3Ji2DwiCxOtD9NwzMBPDznBndEBOD9wM0hSwPeE+B7cVWnUDnCUqm80N1tZJ2IdSFFr74ZNgcLla3Nn+WheF38RsBLXa0yUhsVflgAuECgIRNB4QuFAuRyucA7kuzzKvidNrqPiHz+YpQ2vHAORBFBDywh66llWed8hhzH+flwP2tvTzO27eJM2LDMe/8LJ7FKBHtQYA/eHQdWqy8gAO4a1w0adqg9iAqvnMRSEX9XGQFv48H73ZWeHUFcFG+zD7xSgKo7bXeb5XIB/nWHjCCCMdsXPlRAmAi+20jnBF1EE3wkATIRIsshvrsJt8SHZF55iEULbt2eKfwSf3umFz5yBTxB9y8Pj4SgG+ZY7/q1RwTihn2MxMn83hVI4mU61tD2RaYDVrRmJsBUpmXvySqQVSBmBrItFDOBsR8/+Qr8Arlg+j5U6mfEAAAAAElFTkSuQmCC", style="display: none; margin-left: 4%;")

@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Demo</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <style>
+            .chatCard {
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+                width: 30%;
+                height: 50%;
+                margin-top: 10%;
+                margin-left: 32%;
+                padding: 1%;
+                overflow: hidden;
+                border: none;
+                font: normal 16px/1 "Times New Roman", Times, serif;
+                color: #212121;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                background: #F5F5F5;
+                -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+                box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+                text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+            }
+            .chatInput {
+                bottom: 0px;
+                position: relative;
+                width: 32%;
+                margin-left: 32%;
+                padding: 1%;
+                border: none;
+                background-color: #4CAF50;
+                color: #FAFAFA;
+            }
+            
+        </style>
+    </head>
+    
+    <body style="background-color: #FAFAFA;">
+        <script>
+            var socket = io();
+            var chatUserInput; 
+            console.log('APPLICATION INITIALIZED');
+            
+            $(document).ready(function(){
+                //$('#chatInput').keyup(function(){
+                    //var chatUserInput = $('#chatInput').val().trim();
+                    //console.log(chatUserInput);
+                //});
+                
+                //transmit on pressing enter
+                $(document).keypress(function(e) {
+                    if(e.which == 13) {
+                        chatUserInput = $('#chatInput').val().trim();
+                        socket.emit('chat message', chatUserInput);
+                        $('#chatInput').val('');
+                    }
+                });
+            });
+            //get messeges
+            socket.on('chat message', function(msg){
+                console.log('Response recvd. :'+msg);
+                var message = $('.barebone').clone().removeClass('barebone').text(msg.trim());
+                $(message).insertAfter('.barebone');
+            });
+            
+        </script>
+        
+        <div class="container-fluid">
+            <div class="col-md-6 chatCard">
+                <span class="row chatHistory barebone"></span>
+                <!-- <input type="text" id="chatInput" class="row chatInput"> -->
+            </div>
+            <input type="text" id="chatInput" class="row chatInput" placeholder="Type a message here">
+        </div>
+    </body>
+</html>
