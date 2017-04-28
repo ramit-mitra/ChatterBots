@@ -33,24 +33,27 @@ app.get('/register/:name', function (req, res) {
     var data = req.params.name;
     var acheKi = userNames.indexOf(req.params.name);
     if(acheKi) {
-        return 1;
+        //userNames.push(req.params.name);
+        res.status(200).json(1);
     }
-    return 0;
+    else {
+        res.status(200).json(0);
+    }
 });
 
 //server port bindings
 http.listen(8080, function () {
-  console.log('NodeApp listening in on 8080 for frontend');
+  console.log('NodeApp executing via PORT 8080.');
 })
-http.listen(8443, function () {
+/* http.listen(8443, function () {
   console.log('SSL ported server');
-})
+}) */
 
 //event handling
 io.on('connection', function(socket){
     console.log('User Connected #'+(++countUsers));
-    socket.on('disconnect', function(){
-        console.log('User Disconnected #'+(--countUsers));
+    socket.on('disconnect', function(data){
+        console.log('User Disconnected #'+(--countUsers), socket.id);
     });
     socket.on('chat message', function(msg){
         io.emit('chat message', msg);
@@ -59,8 +62,8 @@ io.on('connection', function(socket){
         var clientPool = new Object();
         clientPool.customId = data.customId;
         clientPool.clientId = socket.id;
-        userPool.push({socket.id : data.customId});
+        //userPool.push({clientPool.clientId, data.customId});
         userNames.push(data.customId);
-        console.log('New User Registered :: '+data.customId);
+        console.log('New User Registered :: '+data.customId, 'All Users :: '+userNames);
     });
 });

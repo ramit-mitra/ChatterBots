@@ -9,6 +9,9 @@ script(src="/socket.io/socket.io.js")
 script.
     var socket = io();
     $(document).ready(function(){
+        /* socket.on('connect', function (data) {
+                        socket.emit('storeClientInfo', { customId : username });
+        }); */
         $('#chooseUsername').keyup(function(){
             if($('#chooseUsername').val().trim().length > 0) {
                 $('#submitUsername').fadeIn('slow');
@@ -22,12 +25,18 @@ script.
             console.log('Desired Username : '+username);
             //check if username is unique
             $.get('/register/'+username, function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            });
-            //register this client
-            var socket = io.connect('http://localhost', {port: 8080});
-            socket.on('connect', function (data) {
-                socket.emit('storeClientInfo', { customId : $('#chooseUsername').val().trim() });
+                if(data == 1){
+                    //register this client
+                    socket.emit('storeClientInfo', { customId : username });
+                    //succesfully registered
+                    $('#enterUsername').remove();
+                }
+                else {
+                    $('#chooseUsername').attr('placeholder', 'Choose another name !');
+                    $('#chooseUsername').css('border-bottom', '2px solid #FF8A80');
+                    $('#chooseUsername').val('');
+                    alert('User already exists');
+                }
             });
         });
     });
