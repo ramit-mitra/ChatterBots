@@ -10,7 +10,7 @@ const pug = require('pug');
 //loading socket
 var io = require('socket.io')(http);
 //user pool
-var userPool = {};
+var userPool = [];
 var userNames = [];
 var countUsers = 0;
 
@@ -27,6 +27,7 @@ app.get('/', function (req, res) {
 });
 app.get('/chatbot', function (req, res) {
     res.send(pug.renderFile('chatbot.pug'));
+    //res.sendFile(path.join(__dirname+'/chatbot.html'));
     return true;
 });
 app.get('/register/:name', function (req, res) {
@@ -39,6 +40,12 @@ app.get('/register/:name', function (req, res) {
     else {
         res.status(200).json(0);
     }
+});
+app.get('/get-active-users', function (req, res) {
+    res.status(200).json(userNames);
+});
+app.get('/handshake/:from/:to', function (req, res) {
+    res.status(200).json(userPool);
 });
 
 //server port bindings
@@ -62,8 +69,8 @@ io.on('connection', function(socket){
         var clientPool = new Object();
         clientPool.customId = data.customId;
         clientPool.clientId = socket.id;
-        //userPool.push({clientPool.clientId, data.customId});
+        userPool.push([data.customId, socket.id]);
         userNames.push(data.customId);
-        console.log('New User Registered :: '+data.customId, 'All Users :: '+userNames);
+        console.log('New User Registered :: '+data.customId, 'All Users :: '+userNames, 'User Pool :: '+userPool);
     });
 });
