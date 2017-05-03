@@ -8,6 +8,38 @@ html(lang='en')
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
         script(src="/socket.io/socket.io.js")
         script(src="http://localhost/tryNode/chatter.js")
+        style.
+            .chatCard {
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+                width: 30%;
+                height: 50%;
+                margin-top: 7%;
+                margin-left: 32%;
+                padding: 1%;
+                position: fixed;
+                overflow: hidden;
+                border: none;
+                font: normal 16px/1 "Times New Roman", Times, serif;
+                color: #212121;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                background: #F5F5F5;
+                -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+                box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+                text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+            }
+            .chatInput {
+                bottom: 10%;
+                position: fixed;
+                width: 36%;
+                margin-left: 29%;
+                padding: 1%;
+                border: none;
+                background-color: #4CAF50;
+                color: #FAFAFA;
+            }
     body
         <!-- body content -->
         div.container-fluid(style="background-color: #FAFAFA;")
@@ -18,4 +50,9 @@ html(lang='en')
             input.row.col-md-offset-4.text-center#chooseUsername(type="text", placeholder="Pick a name", style="margin-left: 25%; color: #212121; text-style: italic; width: 50%; border: none; border-bottom: 1px solid #FFAB00;")
             img#submitUsername.icon.icons8-Double-Tick(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACZElEQVRoQ+2YsW7CMBCG78JSWlXqMyA6ItGhKoIBsfAcMFCpTK14DtSNhYE8Bx0qBhBSFyQeodlalUiVOuLKbhMcsJ1AYgeksHJxvv/OvvtjhBP/4YnzQyYg7QpmFcgqEDMD2RaKmcDYjx9NBTrjbgsA6sPmoK1SVelXWwBYn/emLO4oBFB4RBhRIELAlolg8GixOCDEpiJSF8DDe5kXiQjAbwLtVAWI4P+r0B42B7bHKYRngev0KpAE/Lw3S6cCScGncoiThDcuIGl4owJ0wBsToAveiACd8NoFdMbdMiC8IsAVbw8IgUCfv32uli1i7cTRPk9bpcpaaBtkJuC1VcAUfEBAZ9ylJmnCj3BR6Sr92giATGSlNQnvC6DwiEDtLHWDgf3Ji2DwiCxOtD9NwzMBPDznBndEBOD9wM0hSwPeE+B7cVWnUDnCUqm80N1tZJ2IdSFFr74ZNgcLla3Nn+WheF38RsBLXa0yUhsVflgAuECgIRNB4QuFAuRyucA7kuzzKvidNrqPiHz+YpQ2vHAORBFBDywh66llWed8hhzH+flwP2tvTzO27eJM2LDMe/8LJ7FKBHtQYA/eHQdWqy8gAO4a1w0adqg9iAqvnMRSEX9XGQFv48H73ZWeHUFcFG+zD7xSgKo7bXeb5XIB/nWHjCCCMdsXPlRAmAi+20jnBF1EE3wkATIRIsshvrsJt8SHZF55iEULbt2eKfwSf3umFz5yBTxB9y8Pj4SgG+ZY7/q1RwTihn2MxMn83hVI4mU61tD2RaYDVrRmJsBUpmXvySqQVSBmBrItFDOBsR8/+Qr8Arlg+j5U6mfEAAAAAElFTkSuQmCC", style="display: none; margin-left: 4%;")
         div.allUsers.text-center.container-fluid#allActiveUsers(style="display: none; padding-top: 5%; font-size: 32px;")
+        div.container-fluid#chatbox(style="display: none; height: 80%; position: fixed;")
+            div.col-md-6.chatCard
+                span.row.chatHistory.barebone
+            div.col-md-6
+                input.row.chatInput#chatInput(type="text", placeholder="Type a message here")
         input(type="hidden", value="" id="thisUserName")

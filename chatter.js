@@ -1,4 +1,5 @@
 var socket = io();
+var authCode = '';
 $(document).ready(function(){
     $('#chooseUsername').keyup(function(){
         if($('#chooseUsername').val().trim().length > 0) {
@@ -31,6 +32,19 @@ $(document).ready(function(){
             }
         });
     });
+    
+    //transmit chats
+    //transmit on pressing enter
+    $(document).keypress(function(e) {
+        if($('#chatbox').is(":visible")) {
+            if(e.which == 13) {
+                chatUserInput = $('#chatInput').val().trim();
+                socket.emit(authCode, chatUserInput);
+                console.log('Transmitting new message :: '+chatUserInput, authCode);
+                $('#chatInput').val('');
+            }
+        }
+    });
 });
 
 function showAvailableUsers()
@@ -51,7 +65,17 @@ function handshake(withUser)
 {
     username = $('#thisUserName').val();
     $.get('/handshake/'+username+'/'+withUser, function(data, status){
-        console.log('handshake response :: '+data);
-        
+        if(data.length){
+            //start chat
+            startChat(data);
+        }
     });
+}
+
+function startChat(authCode) {
+    //1. Clear userlist
+    $('#allActiveUsers').fadeOut('fast');
+    //2. Open chatbox
+    $('#chatbox').fadeIn('slow');
+    this.authCode = authCode;
 }

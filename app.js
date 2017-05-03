@@ -13,6 +13,10 @@ var io = require('socket.io')(http);
 var userPool = [];
 var userNames = [];
 var countUsers = 0;
+//the cool params that make magic happen
+var inUseTokens = [];
+var chatHubs = [];
+
 
 //create a server
 /* http.createServer(function (req, res) {
@@ -45,7 +49,14 @@ app.get('/get-active-users', function (req, res) {
     res.status(200).json(userNames);
 });
 app.get('/handshake/:from/:to', function (req, res) {
-    res.status(200).json(userPool);
+    //gotta make a new connection between the users 
+    //1. get handshaking token 
+    var thisToken = getToken();
+    //2. make a new connection
+    chatHubs.push(newConnection(thisToken));
+    console.log('Updated Connections :: '+chatHubs);
+    //return the handshaked token
+    res.status(200).json(thisToken);
 });
 
 //server port bindings
@@ -74,3 +85,26 @@ io.on('connection', function(socket){
         console.log('New User Registered :: '+data.customId, 'All Users :: '+userNames, 'User Pool :: '+userPool);
     });
 });
+
+
+function newConnection(token) {
+    socket.on(token, function(msg){
+        io.emit(token, msg);
+    });
+}
+
+function getToken(length = 23) {
+    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var result = '';
+    for (var i = length; i > 0; --i) 
+        result += chars[Math.floor(Math.random() * chars.length)];
+    //test uniqueness
+    var acheKi = inUseTokens.indexOf(result);
+    if(acheKi != -1) {
+        result = getToken();
+    }
+    else{
+        inUseTokens.push(result);
+    }
+    return result;
+}
