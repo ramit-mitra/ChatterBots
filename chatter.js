@@ -39,11 +39,17 @@ $(document).ready(function(){
         if($('#chatbox').is(":visible")) {
             if(e.which == 13) {
                 chatUserInput = $('#chatInput').val().trim();
-                socket.emit(authCode, chatUserInput);
+                socket.emit('chat message', chatUserInput);
                 console.log('Transmitting new message :: '+chatUserInput, authCode);
                 $('#chatInput').val('');
             }
         }
+    });
+    //get messeges
+    socket.on('chat message', function(msg){
+        console.log('Response recvd. :'+msg);
+        var message = $('.barebone').clone().removeClass('barebone').addClass('text-right').text(msg.trim());
+        $(message).insertAfter('.barebone');
     });
 });
 

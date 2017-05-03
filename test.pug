@@ -40,19 +40,18 @@ html(lang='en')
                 background-color: #4CAF50;
                 color: #FAFAFA;
             }
-    body(style="background-color: #D7CCC8;")
+    body
         <!-- body content -->
-        div.container-fluid(style="background-color: #795548;")
-            h1.text-left(style="color: #03A9F4;") 
-                kbd.text-left ChatterBots
-            hr(style="border: #FAFAFA;")
-        div.container-fluid#enterUsername(style="padding-top: 14%; font-size: 32px;")
-            input.row.col-md-offset-4.text-center#chooseUsername(type="text", placeholder="type your alias", style="margin-left: 25%; background-color: #D7CCC8; color: #5D4037; text-style: italic; width: 50%; border: none; border-bottom: 1px solid #4E342E;")
-            img#submitUsername.icon.icons8-Double-Tick(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACZElEQVRoQ+2YsW7CMBCG78JSWlXqMyA6ItGhKoIBsfAcMFCpTK14DtSNhYE8Bx0qBhBSFyQeodlalUiVOuLKbhMcsJ1AYgeksHJxvv/OvvtjhBP/4YnzQyYg7QpmFcgqEDMD2RaKmcDYjx9NBTrjbgsA6sPmoK1SVelXWwBYn/emLO4oBFB4RBhRIELAlolg8GixOCDEpiJSF8DDe5kXiQjAbwLtVAWI4P+r0B42B7bHKYRngev0KpAE/Lw3S6cCScGncoiThDcuIGl4owJ0wBsToAveiACd8NoFdMbdMiC8IsAVbw8IgUCfv32uli1i7cTRPk9bpcpaaBtkJuC1VcAUfEBAZ9ylJmnCj3BR6Sr92giATGSlNQnvC6DwiEDtLHWDgf3Ji2DwiCxOtD9NwzMBPDznBndEBOD9wM0hSwPeE+B7cVWnUDnCUqm80N1tZJ2IdSFFr74ZNgcLla3Nn+WheF38RsBLXa0yUhsVflgAuECgIRNB4QuFAuRyucA7kuzzKvidNrqPiHz+YpQ2vHAORBFBDywh66llWed8hhzH+flwP2tvTzO27eJM2LDMe/8LJ7FKBHtQYA/eHQdWqy8gAO4a1w0adqg9iAqvnMRSEX9XGQFv48H73ZWeHUFcFG+zD7xSgKo7bXeb5XIB/nWHjCCCMdsXPlRAmAi+20jnBF1EE3wkATIRIsshvrsJt8SHZF55iEULbt2eKfwSf3umFz5yBTxB9y8Pj4SgG+ZY7/q1RwTihn2MxMn83hVI4mU61tD2RaYDVrRmJsBUpmXvySqQVSBmBrItFDOBsR8/+Qr8Arlg+j5U6mfEAAAAAElFTkSuQmCC", style="display: none; margin-left: 4%;")
-        div.allUsers.text-center.container-fluid#allActiveUsers(style="display: none; padding-top: 5%; font-size: 32px;")
-        div.container-fluid#chatbox(style="display: none; height: 80%; position: fixed;")
+        div.container-fluid(style="background-color: #FAFAFA;")
+            h1.text-center(style="color: #8BC34A; text-style: bold;") ChatterBots
+            h5.text-center(style="color: #FF9800; text-style: italic;") POWERED BY NodeJS, Bootstrap and Pug
+            hr(style="border: #F5F5F5;")
+            
+        div.container-fluid#chatbox(style="height: 80%; border: 1px solid red; position: fixed;")
             div.col-md-6.chatCard
                 span.row.chatHistory.barebone
             div.col-md-6
                 input.row.chatInput#chatInput(type="text", placeholder="Type a message here")
+                
+                
         input(type="hidden", value="" id="thisUserName")

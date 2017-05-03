@@ -53,7 +53,7 @@ app.get('/handshake/:from/:to', function (req, res) {
     //1. get handshaking token 
     var thisToken = getToken();
     //2. make a new connection
-    chatHubs.push(newConnection(thisToken));
+    //chatHubs.push(newConnection(thisToken));
     console.log('Updated Connections :: '+chatHubs);
     //return the handshaked token
     res.status(200).json(thisToken);
